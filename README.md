@@ -1,148 +1,594 @@
-# README
-Laboratory_work_1
-Платформа для обучения и онлайн-курсов
 
-**Сущности:**
+**Лабораторные работы по БД**
 
-**Курсы** (наименование, автор, продолжительность)
+Перечень [лабораторные работы](https://edu.irnok.net/lib/exe/fetch.php?media=db:%D0%B2%D0%B0%D1%80%D0%B8%D0%B0%D0%BD%D1%82%D1%8B_%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B9_%D0%BF%D0%BE_%D1%83%D0%B4.pdf)
 
-**Студенты** (ID, ФИО, дата регистрации)
+Telegram: [at]Шурик
 
-**Модули курса** (наименование, продолжительность в минутах)
+# Постановка задачи (вариант 35)
 
-**Процессы:**
-Студенты записываются на курсы, проходят модули и сдают тесты. Фиксируется дата начала и окончания прохождения каждого модуля.
+**Платформа для обучения и онлайн-курсов**
 
-**Выходные документы:**
+*Сущности:* Курсы (наименование, автор, продолжительность), студенты (ID, ФИО, дата регистрации), модули курса (наименование, продолжительность в часах).
 
-1.  Для заданного курса выдать список студентов, которые прошли более половины модулей, отсортированный по проценту завершения (по убыванию).
+*Процессы:* Студенты работают над курсами, проходят модули и проводят тесты. Фиксируется дата начала и окончания прохождения каждого модуля.
 
-2.  Выдать среднее время прохождения каждого модуля для указанного курса, отсортированное по наименованию модуля.
+*Выходные документы:*
 
-**ER-модель**
+  - Для заданного курса выдайте список студентов, прошедших более половины модулей, отсортированный по проценту выполнения (по убыванию).
+  - Выдать среднее время прохождения каждого модуля для указанного курса, отсортированное по наименованию модуля.
 
-**Логическая модель:**
+# Лабораторная работа 1 (Проектирование логической и физической модели БД)
 
-**Используются правила нормализации** (правила преобразования ER-диаграммы в реляционную модель).
 
-**Предполагается, что при использовании этих правил получаются четыре таблицы:** [COURSES, STUDENTS, MODULES, STUDENT_PROGRESS.]
+## Промпт к Дипсик
 
-**Преобразование сущностей в таблицы:**
+```text
+Лаба по проектированию информационной модели для реляционных баз данных.
+Предполагаем Postgresql.
+Есть ошибки, замечания, неточности?
 
-**Сущность "Курсы" → Таблица COURSES**
+# Платформа для обучения и онлайн-курсов
 
-Атрибуты: [course_id, name, author, total_duration]
+## Постановка задачи
 
-Первичный ключ: [course_id]
+*Сущности:*
+    Курсы (наименование, автор, продолжительность),
+    Студенты (ID, ФИО, дата_регистрации), 
+    Модули_курса (наименование, продолжительность_в_часах).
 
-**Сущность "Студенты" → Таблица STUDENTS**
+*Процессы:* 
+    Студенты работают над курсами, проходят модули и проводят тесты. 
+    Фиксируется дата начала и окончания прохождения каждого модуля.
 
-Атрибуты: [student_id, first_name, last_name, registration_date]
+*Выходные документы:*
 
-Первичный ключ: [student_id]
+  - Для заданного курса выдайте список студентов, прошедших более половины модулей, отсортированный по проценту выполнения (по убыванию).
 
-**Сущность "Модули курса" → Таблица MODULES**
+  - Выдать среднее время прохождения каждого модуля для указанного курса, отсортированное по наименованию модуля.
 
-Атрибуты: [module_id, course_id, name, duration_minutes]
+## ER-Модель
+### Базовые сущности
 
-Первичный ключ: [module_id]
+    Студент(ФИО, дата_регистрации), ключ - ID
+    Курс(наименование, автор, продолжительность), ключ - ID  
+    Модуль(наименование, продолжительность_в_часах), ключ - ID
 
-Внешний ключ: [course_id]
+### Отношения
 
-**Связь "Прогресс студента" → Таблица STUDENT_PROGRESS**
+    [Курс]-1,Required------------------N,Optional-[Модуль]
 
-Атрибуты: [progress_id, student_id, module_id, start_date, end_date]
+    [Студент]-N,Required-----Прохождение------M,Required-[Курс]
+                              дата_начала, дата_окончания
 
-Первичный ключ: [progress_id]
+    [Студент]-N,Required-----Прогресс_модуля------M,Required-[Модуль]
+                              дата_начала, дата_окончания, статус
 
-Внешние ключи: [student_id, module_id]
+## Логическая модель
 
-**Правила преобразования:**
+Используя правила преобразования ER-диаграмм получаем пять *таблиц*:
 
-1.  **Каждая сущность становится таблицей.**
+  - ```Student(student_id, full_name, registration_date)```, primary key - student_id
+  - ```Course(course_id, name, author, duration)```, primary key - course_id
+  - ```Module(module_id, course_id, name, duration_hours)```, primary key - module_id
+  - ```StudentCourse(student_id, course_id, start_date, end_date)```, composite primary key - (student_id, course_id)
+  - ```StudentModule(student_id, module_id, start_date, end_date, status)```, composite primary key - (student_id, module_id)
 
-2.  **Атрибуты сущности становятся столбцами таблицы.**
+## Физическая модель
 
-3.  **Связь "многие-ко-многим" между Студентами и Модулями преобразуется в отдельную таблицу [STUDENT_PROGRESS],** так как один студент проходит много модулей, и один модуль может быть пройден многими студентами. Эта таблица хранит конкретные детали прохождения (дата начала, дата окончания).
+Зададим типы данных для атрибутов:
 
-4.  **Связь "один-ко-многим" между Курсами и Модулями реализуется через внешний ключ в таблице [MODULES].**
+  - ```student_id::SERIAL```
+  - ```full_name::varchar(100)```
+  - ```registration_date::date```
+  - ```course_id::SERIAL```
+  - ```name::varchar(100)```
+  - ```author::varchar(100)```
+  - ```duration::integer``` (в часах)
+  - ```module_id::SERIAL```
+  - ```duration_hours::integer```
+  - ```start_date::date```
+  - ```end_date::date```
+  - ```status::varchar(20)```
 
-**Объяснение:**
+## Проверка нормальных форм
 
-**Сущность Курс:** Хранит информацию о курсах на платформе. [course_id] — первичный ключ.
+### Первая нормальная форма
+Все значения всех атрибутов атомарные.
 
-**Сущность Студент:** Содержит информацию о зарегистрированных студентах. [student_id] — первичный ключ.
+### Вторая нормальная форма
+Выполняется: нет зависимостей неключевых атрибутов от части ключа
 
-**Сущность Модуль курса:** Хранит информацию об учебных модулях, принадлежащих конкретному курсу. [module_id] — первичный ключ. Содержит внешний ключ [course_id] для связи с курсом, к которому принадлежит модуль.
-
-**Сущность Прогресс студента:** Представляет собой факт прохождения конкретного модуля конкретным студентом. [progress_id] — первичный ключ. Содержит внешние ключи, ссылающиеся на студента ([student_id]) и модуль ([module_id]), а также даты начала ([start_date]) и окончания ([end_date]) прохождения.
-
-**Отношения:**
-
-**Курс ---< Модуль (1:M):** Один курс состоит из многих модулей.
-
-**Студент ---< Прогресс студента (1:M):** Один студент может иметь много записей о прогрессе.
-
-**Модуль ---< Прогресс студента (1:M):** Один модуль может быть пройден многими студентами.
-
-**Первичные ключи (Primary Keys):**
-
-**COURSES:** [course_id] (идентификатор курса). Суррогатный ключ.
-
-**STUDENTS:** [student_id] (идентификатор студента). Суррогатный ключ.
-
-**MODULES:** [module_id] (идентификатор модуля). Суррогатный ключ.
-
-**STUDENT_PROGRESS:** [progress_id] (идентификатор записи о прогрессе). Суррогатный ключ.
-
-**Внешние ключи (Foreign Keys):**
-
-**MODULES:** [course_id → COURSES(course_id)]
-
-**STUDENT_PROGRESS:** [student_id → STUDENTS(student_id)]
-
-**STUDENT_PROGRESS:** [module_id → MODULES(module_id)]
-
-**Физическая модель (типы данных)**
-
-**Таблица: COURSES (Курсы)**
-
-[course_id:] INTEGER (первичный ключ, автоинкремент)
-
-[name:] VARCHAR(100) (наименование курса)
-
-[author:] VARCHAR(100) (автор курса)
-
-[total_duration:] INTEGER (общая продолжительность в часах)
-
-**Таблица: STUDENTS (Студенты)**
-
-[student_id]: INTEGER (первичный ключ, автоинкремент)
-
-[first_name:] VARCHAR(50) (имя)
-
-[last_name:] VARCHAR(50) (фамилия)
-
-[registration_date:] DATE (дата регистрации на платформе)
-
-**Таблица: MODULES (Модули курса)**
-
-[module_id:] INTEGER (первичный ключ, автоинкремент)
-
-[course_id:] INTEGER (внешний ключ на [COURSES.course_id])
-
-[name:] VARCHAR(100) (наименование модуля)
-
-[duration_minutes]: INTEGER (продолжительность в минутах)
-
-**Таблица: STUDENT_PROGRESS (Прогресс студента)**
-
-[progress_id:] INTEGER (первичный ключ, автоинкремент)
-
-[student_id:] INTEGER (внешний ключ на [STUDENTS.student_id])
-
-[module_id:] INTEGER (внешний ключ на [MODULES.module_id])
-
-[start_date:] DATE (дата начала прохождения модуля)
-
-[end_date:] DATE (дата окончания прохождения модуля)
+### Третья нормальная форма
+Нет транзитивных зависимостей неключей от неключей
+
+### Нормальная форма Бойса-Кодда
+Соблюдена.
+```
+
+Отличная работа! Модель хорошо структурирована, но есть несколько важных замечаний и улучшений для создания более надежной базы данных.
+
+### Критические замечания и рекомендации
+
+#### 1. Отсутствие связи между Module и Course
+**Проблема:** В текущей модели нет явной связи между модулями и курсами, что делает невозможным определение того, к какому курсу принадлежит модуль.
+*   **Целостность данных:** Невозможно гарантировать, что модуль принадлежит существующему курсу.
+*   **Запросы:** Невозможно выполнить требуемые запросы без связи между таблицами.
+
+**Исправление:**
+```sql
+-- Было: Module(module_id, name, duration_hours)
+-- Стало:
+Module(
+    module_id SERIAL PRIMARY KEY,
+    course_id INTEGER NOT NULL REFERENCES Course(course_id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    duration_hours INTEGER NOT NULL CHECK (duration_hours > 0),
+    module_order INTEGER -- Порядок модулей в курсе
+);
+```
+
+#### 2. Первичные ключи для связующих таблиц
+**Проблема:** Использование составных первичных ключей может быть ограничивающим.
+*   **Гибкость:** Суррогатные ключи дают больше гибкости для будущих изменений.
+*   **Производительность:** Внешние ключи на суррогатные ключи обычно работают лучше.
+
+**Исправление:**
+```sql
+-- Было: StudentCourse(student_id, course_id, start_date, end_date)
+-- Стало:
+StudentCourse(
+    student_course_id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES Student(student_id) ON DELETE CASCADE,
+    course_id INTEGER NOT NULL REFERENCES Course(course_id) ON DELETE CASCADE,
+    start_date DATE NOT NULL,
+    end_date DATE,
+    enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(student_id, course_id)
+);
+
+-- Было: StudentModule(student_id, module_id, start_date, end_date, status)
+-- Стало:
+StudentModule(
+    student_module_id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES Student(student_id) ON DELETE CASCADE,
+    module_id INTEGER NOT NULL REFERENCES Module(module_id) ON DELETE CASCADE,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'not_started' CHECK (status IN ('not_started', 'in_progress', 'completed', 'failed')),
+    score DECIMAL(5,2),
+    UNIQUE(student_id, module_id)
+);
+```
+
+#### 3. Улучшение типов данных и ограничений
+**Проблема:** Некоторые типы данных можно улучшить для большей точности и гибкости.
+*   **Даты:** Для точного учета времени прохождения лучше использовать TIMESTAMP
+*   **Статусы:** Добавить CHECK ограничения для валидации статусов
+*   **Оценки:** Добавить поле для хранения результатов тестов
+
+**Исправление:**
+```sql
+-- Добавляем CHECK constraints и улучшаем типы
+CREATE TABLE StudentModule (
+    student_module_id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES Student(student_id) ON DELETE CASCADE,
+    module_id INTEGER NOT NULL REFERENCES Module(module_id) ON DELETE CASCADE,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'not_started' CHECK (status IN ('not_started', 'in_progress', 'completed', 'failed')),
+    score DECIMAL(5,2) CHECK (score >= 0 AND score <= 100),
+    time_spent_minutes INTEGER DEFAULT 0,
+    UNIQUE(student_id, module_id)
+);
+```
+
+---
+
+### Исправленная и улучшенная модель
+
+#### Логическая модель
+*   **`Student`** (`student_id`, full_name, registration_date)
+*   **`Course`** (`course_id`, name, author, duration, created_date)
+*   **`Module`** (`module_id`, `course_id`, name, duration_hours, module_order)
+*   **`StudentCourse`** (`student_course_id`, `student_id`, `course_id`, start_date, end_date, enrollment_date)
+*   **`StudentModule`** (`student_module_id`, `student_id`, `module_id`, start_date, end_date, status, score, time_spent_minutes)
+
+#### Физическая модель (DDL для PostgreSQL)
+```sql
+CREATE TABLE Student (
+    student_id SERIAL PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    registration_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    email VARCHAR(100) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Course (
+    course_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    duration INTEGER NOT NULL CHECK (duration > 0), -- в часах
+    description TEXT,
+    created_date DATE DEFAULT CURRENT_DATE,
+    is_active BOOLEAN DEFAULT true
+);
+
+CREATE TABLE Module (
+    module_id SERIAL PRIMARY KEY,
+    course_id INTEGER NOT NULL REFERENCES Course(course_id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    duration_hours INTEGER NOT NULL CHECK (duration_hours > 0),
+    module_order INTEGER NOT NULL CHECK (module_order > 0),
+    description TEXT,
+    UNIQUE(course_id, module_order)
+);
+
+CREATE TABLE StudentCourse (
+    student_course_id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES Student(student_id) ON DELETE CASCADE,
+    course_id INTEGER NOT NULL REFERENCES Course(course_id) ON DELETE CASCADE,
+    start_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    end_date DATE,
+    enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'completed', 'dropped')),
+    UNIQUE(student_id, course_id)
+);
+
+CREATE TABLE StudentModule (
+    student_module_id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES Student(student_id) ON DELETE CASCADE,
+    module_id INTEGER NOT NULL REFERENCES Module(module_id) ON DELETE CASCADE,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'not_started' CHECK (status IN ('not_started', 'in_progress', 'completed', 'failed')),
+    score DECIMAL(5,2) CHECK (score >= 0 AND score <= 100),
+    time_spent_minutes INTEGER DEFAULT 0 CHECK (time_spent_minutes >= 0),
+    UNIQUE(student_id, module_id)
+);
+
+-- Индексы для ускорения часто используемых запросов
+CREATE INDEX idx_module_course ON Module(course_id);
+CREATE INDEX idx_student_course_student ON StudentCourse(student_id);
+CREATE INDEX idx_student_course_course ON StudentCourse(course_id);
+CREATE INDEX idx_student_module_student ON StudentModule(student_id);
+CREATE INDEX idx_student_module_module ON StudentModule(module_id);
+CREATE INDEX idx_student_module_status ON StudentModule(status);
+CREATE INDEX idx_student_module_dates ON StudentModule(start_date, end_date);
+```
+
+#### Проверка нормальных форм (для исправленной модели)
+*   **1NF:** Соблюдена.
+*   **2NF:** Соблюдена, так как все неключевые атрибуты полностью зависят от целого первичного ключа.
+*   **3NF/BCNF:** Соблюдена. Нет транзитивных зависимостей.
+
+---
+
+### Примеры запросов для "Выходных документов"
+
+**1. Список студентов, прошедших более половины модулей для заданного курса:**
+```sql
+WITH CourseModules AS (
+    SELECT course_id, COUNT(*) as total_modules
+    FROM Module 
+    WHERE course_id = 1  -- ID заданного курса
+    GROUP BY course_id
+),
+StudentProgress AS (
+    SELECT 
+        sc.student_id,
+        s.full_name,
+        COUNT(DISTINCT sm.module_id) as completed_modules,
+        cm.total_modules,
+        ROUND(COUNT(DISTINCT sm.module_id) * 100.0 / cm.total_modules, 2) as completion_percent
+    FROM StudentCourse sc
+    JOIN Student s ON sc.student_id = s.student_id
+    JOIN CourseModules cm ON sc.course_id = cm.course_id
+    LEFT JOIN StudentModule sm ON sc.student_id = sm.student_id 
+        AND sm.status = 'completed'
+        AND sm.module_id IN (SELECT module_id FROM Module WHERE course_id = 1)
+    WHERE sc.course_id = 1
+    GROUP BY sc.student_id, s.full_name, cm.total_modules
+)
+SELECT 
+    student_id,
+    full_name,
+    completed_modules,
+    total_modules,
+    completion_percent
+FROM StudentProgress
+WHERE completion_percent > 50
+ORDER BY completion_percent DESC;
+```
+
+**2. Среднее время прохождения каждого модуля для указанного курса:**
+```sql
+SELECT 
+    m.module_id,
+    m.name as module_name,
+    m.duration_hours as planned_duration,
+    COUNT(sm.student_module_id) as students_completed,
+    ROUND(AVG(EXTRACT(EPOCH FROM (sm.end_date - sm.start_date)) / 3600), 2) as avg_hours_taken,
+    ROUND(AVG(sm.time_spent_minutes) / 60, 2) as avg_hours_spent
+FROM Module m
+LEFT JOIN StudentModule sm ON m.module_id = sm.module_id 
+    AND sm.status = 'completed'
+    AND sm.end_date IS NOT NULL 
+    AND sm.start_date IS NOT NULL
+WHERE m.course_id = 1  -- ID заданного курса
+GROUP BY m.module_id, m.name, m.duration_hours
+ORDER BY m.name;
+```
+
+**Итог:** После внесения этих правок ваша модель станет более надежной и соответствующей стандартам реляционного проектирования. Удачи в сдаче лабы!
+
+## Промпт 2
+
+```text
+В модели добавлена таблица StudentCourse, но прогресс отслеживается на уровне модулей через StudentModule.
+Не является ли таблица StudentCourse избыточной? Можно ли определить прогресс по курсу только на основе пройденных модулей?
+```
+
+**Отличный вопрос! Вы правы, это важный аспект проектирования.**
+
+### Анализ требования
+
+Давайте рассмотрим два подхода:
+
+#### Подход 1: Сохранить обе таблицы (текущий)
+- **StudentCourse:** Общая информация о зачислении на курс
+- **StudentModule:** Детальный прогресс по модулям
+- **Плюсы:** Разделение ответственности, возможность хранить метаданные зачисления
+- **Минусы:** Некоторая избыточность
+
+#### Подход 2: Убрать StudentCourse
+- **Только StudentModule:** Весь прогресс через модули
+- **Плюсы:** Проще структура, меньше избыточности
+- **Минусы:** Сложнее получить общую информацию о зачислении
+
+### Рекомендация
+
+**Сохранить обе таблицы**, потому что:
+
+1. **Метаданные зачисления:** Дата начала курса, статус зачисления, дата окончания
+2. **Производительность:** Быстрый доступ к общей информации о курсе без агрегации модулей
+3. **Гибкость:** Студент может быть зачислен на курс, но еще не начать модули
+4. **Бизнес-логика:** Разные статусы для курса и модулей
+
+### Улучшенная модель:
+
+```sql
+-- StudentCourse хранит общую информацию о зачислении
+CREATE TABLE StudentCourse (
+    student_course_id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES Student(student_id),
+    course_id INTEGER NOT NULL REFERENCES Course(course_id),
+    enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    start_date DATE, -- Когда студент планирует начать
+    completed_date DATE, -- Когда завершил весь курс
+    status VARCHAR(20) DEFAULT 'enrolled' CHECK (status IN ('enrolled', 'in_progress', 'completed', 'dropped')),
+    overall_score DECIMAL(5,2),
+    UNIQUE(student_id, course_id)
+);
+
+-- StudentModule хранит детальный прогресс
+CREATE TABLE StudentModule (
+    student_module_id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES Student(student_id),
+    module_id INTEGER NOT NULL REFERENCES Module(module_id),
+    -- Детальная информация о прохождении модуля
+    UNIQUE(student_id, module_id)
+);
+```
+
+### Когда можно убрать StudentCourse?
+
+Только если:
+- Не нужна отдельная информация о зачислении на курс
+- Весь прогресс определяется исключительно по модулям
+- Нет отдельных статусов для курса и модулей
+
+**Вывод:** Для полнофункциональной платформы обучения лучше сохранить обе таблицы. Это дает большую гибкость и производительность.
+
+## Полученные диаграммы:
+### ER-диаграмма
+
+```mermaid
+erDiagram
+    STUDENT ||--o{ STUDENT_COURSE : enrolls_in
+    COURSE ||--o{ STUDENT_COURSE : has_enrollments
+    COURSE ||--o{ MODULE : contains
+    STUDENT ||--o{ STUDENT_MODULE : progresses
+    MODULE ||--o{ STUDENT_MODULE : completed_by
+    
+    STUDENT {
+        integer student_id PK "SERIAL"
+        varchar full_name
+        date registration_date
+        varchar email
+        timestamp created_at
+    }
+    
+    COURSE {
+        integer course_id PK "SERIAL"
+        varchar name
+        varchar author
+        integer duration
+        text description
+        date created_date
+        boolean is_active
+    }
+    
+    MODULE {
+        integer module_id PK "SERIAL"
+        integer course_id FK
+        varchar name
+        integer duration_hours
+        integer module_order
+        text description
+    }
+    
+    STUDENT_COURSE {
+        integer student_course_id PK "SERIAL"
+        integer student_id FK
+        integer course_id FK
+        timestamp enrollment_date
+        date start_date
+        date completed_date
+        varchar status
+        decimal overall_score
+    }
+    
+    STUDENT_MODULE {
+        integer student_module_id PK "SERIAL"
+        integer student_id FK
+        integer module_id FK
+        timestamp start_date
+        timestamp end_date
+        varchar status
+        decimal score
+        integer time_spent_minutes
+    }
+```
+
+## Логическая модель в виде Диаграммы классов UML-2.4
+
+```mermaid
+classDiagram
+    class Student {
+        +student_id: Integer (PK)
+        +full_name: String
+        +registration_date: Date
+        +email: String
+        +created_at: DateTime
+        +getCourses() List~StudentCourse~
+        +getModuleProgress() List~StudentModule~
+    }
+    
+    class Course {
+        +course_id: Integer (PK)
+        +name: String
+        +author: String
+        +duration: Integer
+        +description: String
+        +created_date: Date
+        +is_active: Boolean
+        +getModules() List~Module~
+        +getEnrollments() List~StudentCourse~
+    }
+    
+    class Module {
+        +module_id: Integer (PK)
+        +course_id: Integer (FK)
+        +name: String
+        +duration_hours: Integer
+        +module_order: Integer
+        +description: String
+        +getCourse() Course
+        +getStudentProgress() List~StudentModule~
+    }
+    
+    class StudentCourse {
+        +student_course_id: Integer (PK)
+        +student_id: Integer (FK)
+        +course_id: Integer (FK)
+        +enrollment_date: DateTime
+        +start_date: Date
+        +completed_date: Date
+        +status: String
+        +overall_score: Decimal
+        +getStudent() Student
+        +getCourse() Course
+    }
+    
+    class StudentModule {
+        +student_module_id: Integer (PK)
+        +student_id: Integer (FK)
+        +module_id: Integer (FK)
+        +start_date: DateTime
+        +end_date: DateTime
+        +status: String
+        +score: Decimal
+        +time_spent_minutes: Integer
+        +getStudent() Student
+        +getModule() Module
+    }
+    
+    Student "1" -- "*" StudentCourse : enrolls_in
+    Course "1" -- "*" StudentCourse : has_enrollments
+    Course "1" -- "*" Module : contains
+    Student "1" -- "*" StudentModule : progresses
+    Module "1" -- "*" StudentModule : completed_by
+```
+
+## Физическая модель БД
+
+```mermaid
+erDiagram
+    student {
+        integer student_id PK "SERIAL"
+        varchar full_name "NOT NULL"
+        date registration_date "DEFAULT CURRENT_DATE"
+        varchar email
+        timestamp created_at "DEFAULT CURRENT_TIMESTAMP"
+    }
+    
+    course {
+        integer course_id PK "SERIAL"
+        varchar name "NOT NULL"
+        varchar author "NOT NULL"
+        integer duration "NOT NULL, CHECK (duration > 0)"
+        text description
+        date created_date "DEFAULT CURRENT_DATE"
+        boolean is_active "DEFAULT true"
+    }
+    
+    module {
+        integer module_id PK "SERIAL"
+        integer course_id FK "NOT NULL"
+        varchar name "NOT NULL"
+        integer duration_hours "NOT NULL, CHECK (duration_hours > 0)"
+        integer module_order "NOT NULL, CHECK (module_order > 0)"
+        text description
+    }
+    
+    student_course {
+        integer student_course_id PK "SERIAL"
+        integer student_id FK "NOT NULL"
+        integer course_id FK "NOT NULL"
+        timestamp enrollment_date "DEFAULT CURRENT_TIMESTAMP"
+        date start_date
+        date completed_date
+        varchar status "DEFAULT 'enrolled'"
+        decimal overall_score
+    }
+    
+    student_module {
+        integer student_module_id PK "SERIAL"
+        integer student_id FK "NOT NULL"
+        integer module_id FK "NOT NULL"
+        timestamp start_date
+        timestamp end_date
+        varchar status "DEFAULT 'not_started'"
+        decimal score
+        integer time_spent_minutes "DEFAULT 0"
+    }
+    
+    student ||--o{ student_course : "FOREIGN KEY (student_id) REFERENCES student(student_id)"
+    course ||--o{ student_course : "FOREIGN KEY (course_id) REFERENCES course(course_id)"
+    course ||--o{ module : "FOREIGN KEY (course_id) REFERENCES course(course_id)"
+    student ||--o{ student_module : "FOREIGN KEY (student_id) REFERENCES student(student_id)"
+    module ||--o{ student_module : "FOREIGN KEY (module_id) REFERENCES module(module_id)"
+```
+
+## Заключение
+
+В первой лабораторной работе при помощи теоретического инструментария проектирования БД и большой языковой модели "Дипсик" произведено проектирование ER-, логической и физической модели базы данных варианта 35. Основные замечания, решенные в ходе выполнения лабораторной работы:
+
+  1. Реализовано две итерации консультации с БЯМ;
+  2. БЯМ исправила существенные ошибки проектирования (отсутствие связи модулей с курсами, суррогатные ключи);
+  3. Добавлены CHECK-ограничения для валидации статусов и числовых значений;
+  4. Улучшена структура данных (TIMESTAMP для точного учета времени, порядок модулей);
+  5. Сохранена оптимальная нормализация с разделением информации о зачислении и прогрессе модулей.
+
+Ссылка на чат: https://chat.deepseek.com/a/chat/s/091b1f15-05a9-4246-a772-6637278e27d9
