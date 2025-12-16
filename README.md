@@ -657,11 +657,11 @@ erDiagram
 
 
 # 4. Содержательные SELECT-запросы с JOIN
-## 1. Выдать список учеников, получивших двойки или пропустивших занятия в определенный интервал дат.
-<img width="974" height="595" alt="image" src="https://github.com/user-attachments/assets/d97bc617-88f1-4670-886e-bbb60b58673d" />
-## 2. Выдать список учеников и предметов, по которым число пятерок больше заданного, отсортированный по ученикам и предметам.
-<img width="974" height="570" alt="image" src="https://github.com/user-attachments/assets/11a201be-8fd2-4fa5-89e4-123cdb42539f" />
+## 1.Для заданного курса выдайте список студентов, прошедших более половины модулей, отсортированный по проценту выполнения (по убыванию).
+<img width="843" height="581" alt="image" src="https://github.com/user-attachments/assets/6aac8977-fb5b-4d89-8f6e-58c7af8e87fc" />
 
+## 2.Выдать среднее время прохождения каждого модуля для указанного курса, отсортированное по наименованию модуля.
+<img width="900" height="498" alt="image" src="https://github.com/user-attachments/assets/21328ad1-3c38-4af9-b027-c6e785841467" />
 
 
 
