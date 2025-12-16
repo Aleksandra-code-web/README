@@ -616,27 +616,43 @@ erDiagram
 • Система отслеживает успеваемость (оценки) и посещаемость (пропуски)
 
 ## 2. Создание таблиц
-<img width="174" height="353" alt="image" src="https://github.com/user-attachments/assets/ab8f2bbc-862c-40ee-af88-ee5bfccda4ce" />
 
-## Создание таблицы Ученик
-<img width="409" height="338" alt="image" src="https://github.com/user-attachments/assets/917aca3a-41cb-407a-90a2-fb7bbb65f162" />
+## Создание таблицы Student
+<img width="599" height="277" alt="image" src="https://github.com/user-attachments/assets/9084bd15-3255-4ae6-8321-c197cc995c8d" />
 
-## Создание таблицы «Предмет»
-<img width="434" height="316" alt="image" src="https://github.com/user-attachments/assets/2c225cde-3f10-4211-904e-0e02018f63ee" />
+## Создание таблицы Course
+<img width="544" height="369" alt="image" src="https://github.com/user-attachments/assets/d8edbf70-edb6-4a9c-a35f-dfc834dda8b6" />
 
-## Создание таблицы «Успеваемость»
-<img width="574" height="352" alt="image" src="https://github.com/user-attachments/assets/fca8efa0-0078-4e19-a0bc-61cccd229ce1" />
+## Создание таблицы Module
+<img width="880" height="369" alt="image" src="https://github.com/user-attachments/assets/2b75e74a-79d3-4c07-9680-5a77958472b3" />
+
+## Создаем таблицу StudentCourse
+<img width="1121" height="400" alt="image" src="https://github.com/user-attachments/assets/576d18d1-f4ac-4b1e-9cc0-f7426d9b0aa9" />
+
+## Создаем таблицу StudentModule
+<img width="1065" height="412" alt="image" src="https://github.com/user-attachments/assets/c5004f64-1dc5-4bd0-9442-d64a4f400cec" />
+
 
 # 3. Наполнение таблиц
-## Вставка данных в таблицу Ученик (6 записей)
-<img width="974" height="376" alt="image" src="https://github.com/user-attachments/assets/60100aeb-3cc2-4e36-857f-2a46fcad5dfe" />
+## Вставка данных в таблицу Student
+<img width="889" height="416" alt="image" src="https://github.com/user-attachments/assets/cea5addc-a1ef-4d6b-9754-80b47fa941bb" />
 
-## Вставка данных в таблицу Предмет (6 записей)
-<img width="493" height="416" alt="image" src="https://github.com/user-attachments/assets/18c22852-7149-4ffc-977f-871610667099" />
+## Вставка данных в таблицу Course
+<img width="1115" height="424" alt="image" src="https://github.com/user-attachments/assets/a996c4aa-377e-49a0-9f57-6b938228f103" />
 
-## Вставка данных в таблицу Успеваемость (для каждого ученика по 5 оценок по разным предметам)
-<img width="573" height="482" alt="image" src="https://github.com/user-attachments/assets/c5f30537-5624-43b0-a3dc-6448090d4679" />
-<img width="353" height="426" alt="image" src="https://github.com/user-attachments/assets/efa033e9-d4dc-40b5-8d4a-47707b6a4708" />
+## Вставка данных в таблицу Module
+### Добавляем модули для курса "Основы программирования на Python
+
+<img width="969" height="413" alt="image" src="https://github.com/user-attachments/assets/13fe2b19-b6c5-49f6-bb61-7ca3af2c044f" />
+
+### Добавляем модули для курса "Web-разработка с Django
+
+<img width="960" height="537" alt="image" src="https://github.com/user-attachments/assets/90a25f32-3fc2-4f2c-9336-04278134a2d8" />
+
+## Записываем студентов на курсы
+<img width="1102" height="428" alt="image" src="https://github.com/user-attachments/assets/edf1d781-5678-499e-b44e-7c75a4bcf5c2" />
+
+## Заполняем прогресс по модулям
 
 # 4. Содержательные SELECT-запросы с JOIN
 ## 1. Выдать список учеников, получивших двойки или пропустивших занятия в определенный интервал дат.
