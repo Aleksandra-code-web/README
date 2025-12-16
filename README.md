@@ -738,3 +738,40 @@ $$;
 
 ## Проверка
 <img width="580" height="194" alt="image" src="https://github.com/user-attachments/assets/445d3626-8670-48d6-9819-065851c9b202" />
+
+
+
+
+
+# Лабораторная работа 4
+## Создание генератора данных (20 000 записей в каждой таблице)
+
+###  Генератор студентов (student) 
+<img width="1136" height="398" alt="image" src="https://github.com/user-attachments/assets/4436d8c5-a7f7-4686-b7aa-2329bd747529" />
+
+### Генератор курсов (course)
+<img width="810" height="488" alt="image" src="https://github.com/user-attachments/assets/1a4b7697-4541-4a17-a727-dd093d709b21" />
+
+###  Генератор модулей (module) 
+<img width="804" height="708" alt="image" src="https://github.com/user-attachments/assets/58101f6c-f941-4849-bfaa-a9a052cbf5cf" />
+
+### Запись студентов на курсы (studentcourse)
+<img width="740" height="470" alt="image" src="https://github.com/user-attachments/assets/7d2052c1-6ca2-4c1f-ae7f-7af8e32f7b83" />
+
+### Прогресс по модулям (studentmodule)
+<img width="856" height="578" alt="image" src="https://github.com/user-attachments/assets/40b641ca-a8a5-4196-b905-ab152f7129b5" />
+
+### Запускаем EXPLAIN ANALYZE
+<img width="946" height="358" alt="image" src="https://github.com/user-attachments/assets/b1bf4cbe-3134-4e1b-aab7-25db089722c7" />
+### Результат
+<img width="904" height="708" alt="image" src="https://github.com/user-attachments/assets/960d7b30-af6e-48fd-a1a6-4b7ca488c7df" />
+
+### Оптимизируем БД при помощи индексов
+<img width="914" height="270" alt="image" src="https://github.com/user-attachments/assets/02ee1eba-5c92-4aa3-99c1-d2babd8b7ba9" />
+### Обновим статистику и посмотрим, что изменилось
+<img width="904" height="708" alt="image" src="https://github.com/user-attachments/assets/49479a5c-3abf-4ebb-beeb-1abb73488b58" />
+
+До оптимизации время выполнения запроса составляло 0.316 мс, а время планирования — 0.561 мс.
+После оптимизации время выполнения сократилось до 0.156 мс, а время планирования — до 0.244 мс.
+Общее время обработки запроса (планирование + выполнение) уменьшилось с 0.877 мс до 0.400 мс, то есть более чем в 2 раза.
+Кроме того, объём используемых буферов сократился с 35 до 3, что свидетельствует о более эффективном использовании памяти.
