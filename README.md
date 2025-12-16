@@ -677,5 +677,61 @@ erDiagram
 <img width="990" height="718" alt="image" src="https://github.com/user-attachments/assets/2280787a-d5d8-4901-b3d9-55e5aea19aba" />
 
 ### Созданы процедуры для редактирования
-<img width="700" height="682" alt="image" src="https://github.com/user-attachments/assets/41715dc3-b3b7-4a1d-9a9e-10010e5f33f1" />
+```sql
+CREATE OR REPLACE PROCEDURE remizova.insert_student_module(
+    p_student_id INT,
+    p_module_id INT,
+    p_status VARCHAR,
+    p_start_date TIMESTAMP,
+    p_end_date TIMESTAMP DEFAULT NULL,
+    p_score INT DEFAULT NULL
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM remizova.studentmodule 
+               WHERE student_id = p_student_id AND module_id = p_module_id) THEN
+        RAISE EXCEPTION 'Запись уже существует';
+    END IF;
 
+    INSERT INTO remizova.studentmodule (student_id, module_id, status, start_date, end_date, score)
+    VALUES (p_student_id, p_module_id, p_status, p_start_date, p_end_date, p_score);
+END;
+$$;
+CREATE OR REPLACE PROCEDURE remizova.update_student_module(
+    p_student_id INT,
+    p_module_id INT,
+    p_status VARCHAR,
+    p_end_date TIMESTAMP,
+    p_score INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM remizova.studentmodule 
+                   WHERE student_id = p_student_id AND module_id = p_module_id) THEN
+        RAISE EXCEPTION 'Запись не найдена';
+    END IF;
+
+    UPDATE remizova.studentmodule
+    SET status = p_status, end_date = p_end_date, score = p_score
+    WHERE student_id = p_student_id AND module_id = p_module_id;
+END;
+$$;
+CREATE OR REPLACE PROCEDURE remizova.delete_student_module(
+    p_student_id INT,
+    p_module_id INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM remizova.studentmodule 
+                   WHERE student_id = p_student_id AND module_id = p_module_id) THEN
+        RAISE EXCEPTION 'Запись не найдена';
+    END IF;
+
+    DELETE FROM remizova.studentmodule
+    WHERE student_id = p_student_id AND module_id = p_module_id;
+END;
+$$;
+```
