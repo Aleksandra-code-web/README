@@ -667,3 +667,15 @@ erDiagram
 
 
 # Лабораторная работа 3
+## Представления и процедуры
+### Создано VIEW для запроса
+### Студенты, прошедшие >50% модулей
+<img width="862" height="530" alt="2025-12-16_16-24-52" src="https://github.com/user-attachments/assets/25dda5b8-989e-4061-b9b0-6aace4a30803" />
+
+### Создана функция get_student_completion_report
+###  Отчёт по студентам (для любого курса)
+<img width="990" height="718" alt="image" src="https://github.com/user-attachments/assets/2280787a-d5d8-4901-b3d9-55e5aea19aba" />
+
+### Созданы процедуры для редактирования
+<img width="700" height="682" alt="image" src="https://github.com/user-attachments/assets/41715dc3-b3b7-4a1d-9a9e-10010e5f33f1" />
+
