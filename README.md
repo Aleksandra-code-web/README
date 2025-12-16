@@ -653,6 +653,8 @@ erDiagram
 <img width="1102" height="428" alt="image" src="https://github.com/user-attachments/assets/edf1d781-5678-499e-b44e-7c75a4bcf5c2" />
 
 ## Заполняем прогресс по модулям
+<img width="1258" height="638" alt="image" src="https://github.com/user-attachments/assets/23fb3a1d-3e36-413e-a37b-a0a405834a4f" />
+
 
 # 4. Содержательные SELECT-запросы с JOIN
 ## 1. Выдать список учеников, получивших двойки или пропустивших занятия в определенный интервал дат.
