@@ -667,22 +667,3 @@ erDiagram
 
 
 # Лабораторная работа 3
-## 1. Создание представлений для выходных документов
-1.1 Представление для отслеживания успеваемости учеников по предметам
-<img width="790" height="777" alt="image" src="https://github.com/user-attachments/assets/4c62349c-33e9-4aff-8464-3f4f7ec3d5ea" />
-
-1.2 Статистика по предметам (частота оценок)
-<img width="811" height="606" alt="image" src="https://github.com/user-attachments/assets/2497cc6f-3095-498b-908b-5c5c7f3742e4" />
-
-1.3 Ежемесячный прогресс учеников
-<img width="986" height="614" alt="image" src="https://github.com/user-attachments/assets/f41c1404-f960-41ac-8c41-aa8fc424169d" />
-
-## 2. Разработка хранимых процедур с параметрами
-2.1 Процедура для получения прогресса ученика
-<img width="988" height="791" alt="image" src="https://github.com/user-attachments/assets/2257f365-f082-42f5-b29c-ff915edb4a8b" />
-
-2.2 Процедура для статистики по предметам за период
-<img width="801" height="785" alt="image" src="https://github.com/user-attachments/assets/c8bb6d98-e563-4307-b051-b2b247ad7efb" />
-
-# 3. ВСТАВКА ТЕСТОВЫХ ДАННЫХ
-
