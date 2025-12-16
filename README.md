@@ -735,3 +735,6 @@ BEGIN
 END;
 $$;
 ```
+
+## Проверка
+<img width="580" height="194" alt="image" src="https://github.com/user-attachments/assets/445d3626-8670-48d6-9819-065851c9b202" />
