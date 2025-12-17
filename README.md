@@ -775,3 +775,38 @@ $$;
 После оптимизации время выполнения сократилось до 0.156 мс, а время планирования — до 0.244 мс.
 Общее время обработки запроса (планирование + выполнение) уменьшилось с 0.877 мс до 0.400 мс, то есть более чем в 2 раза.
 Кроме того, объём используемых буферов сократился с 35 до 3, что свидетельствует о более эффективном использовании памяти.
+
+
+
+
+#Лабораторная работа 5. Триггеры и аудит
+##Цель: Реализация бизнес-логики на уровне БД и системы аудита.
+
+##1. Триггеры каскадного удаления для связей "один-ко-многим"
+
+1.1 Триггер для удаления записей из StudentModule при удалении студента
+<img width="938" height="428" alt="image" src="https://github.com/user-attachments/assets/c3c64615-2ee6-4aab-838b-a938a3acf5d5" />
+
+1.2 Триггер для удаления записей из StudentCourse при удалении студента
+<img width="924" height="380" alt="image" src="https://github.com/user-attachments/assets/634693e3-4b02-43dd-8613-00a981b1b700" />
+
+1.3 Триггер для удаления записей из StudentModule при удалении модуля
+<img width="898" height="432" alt="image" src="https://github.com/user-attachments/assets/fb23169d-36d2-4405-9537-8f41b96eebb1" />
+
+
+## 2. Создание таблицы-журнала для отслеживания изменений
+<img width="900" height="534" alt="image" src="https://github.com/user-attachments/assets/3e18466a-9ccc-4b63-b22c-bc3ea5d12120" />
+
+
+## 3. Триггеры аудита изменений (INSERT, UPDATE, DELETE)
+<img width="658" height="704" alt="image" src="https://github.com/user-attachments/assets/0b4681bc-2389-4d3b-b817-ee6b6957773c" />
+<img width="564" height="680" alt="image" src="https://github.com/user-attachments/assets/90f89b56-4ca3-40af-ad78-883583d3c59c" />
+<img width="658" height="526" alt="image" src="https://github.com/user-attachments/assets/5e169098-2d25-4c94-9429-cd12b8d044a5" />
+
+
+## 4. Проверка работы системы аудита
+<img width="996" height="578" alt="image" src="https://github.com/user-attachments/assets/2cdea897-2b1f-4774-85b2-81afdad0b6fa" />
+
+
+## 5. Пример тестирования триггеров
+<img width="1280" height="486" alt="image" src="https://github.com/user-attachments/assets/a363978d-ceba-4c26-ae36-3e054be8c7d5" />
